@@ -1,0 +1,34 @@
+version: "3"
+
+tasks:
+  build_flutter_web:
+    desc: "Flutter webをビルドする"
+    cmds:
+      - flutter build web --release
+    sources:
+      - "lib/**"
+      - "web/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+    generates:
+      - "build/web/**"
+
+  flutter_web:
+    desc: "Flutter webを実行する"
+    cmds:
+      - flutter run -d chrome
+    deps:
+      - build_flutter_web
+
+  firebase_deploy:
+    desc: "Firebase Hostingへデプロイする"
+    cmds:
+      - firebase deploy --only hosting
+    deps:
+      - build_flutter_web
+
+  deploy:
+    desc: "Flutter webのビルドからFirebase Hostingへのデプロイまで一気に実行"
+    cmds:
+      - task build_flutter_web
+      - task firebase_deploy
