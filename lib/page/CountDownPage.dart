@@ -43,10 +43,22 @@ class _CountDownPageState extends State<CountDownPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       body: Center(
-        child: Text(
-          _count.toString(),
-          style: Theme.of(context).textTheme.displayLarge,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 400),
+          transitionBuilder:
+              (child, animation) =>
+                  ScaleTransition(scale: animation, child: child),
+          child: Text(
+            _count.toString(),
+            key: ValueKey(_count),
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              color: Colors.blue[700],
+              fontWeight: FontWeight.bold,
+              fontSize: 96,
+            ),
+          ),
         ),
       ),
     );
